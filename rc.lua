@@ -24,6 +24,7 @@ local has_fdo, freedesktop = pcall(require, "freedesktop")
 
 -- Import the custom taglist
 local custom_taglist = require("taglist")
+local custom_clock = require("clock")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -115,19 +116,14 @@ else
     })
 end
 
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
+local launcher_btn = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
+
+local mylauncher = wibox.container.rotate(launcher_btn, 'east')
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
-
--- Keyboard map indicator and switcher
--- mykeyboardlayout = awful.widget.keyboardlayout()
-
--- {{{ Wibar
--- Create a textclock widget
-mytextclock = wibox.widget.textclock()
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -251,7 +247,7 @@ awful.screen.connect_for_each_screen(function(s)
                 layout = wibox.layout.fixed.horizontal,
                 -- mykeyboardlayout,
                 wibox.widget.systray(),
-                mytextclock,
+                custom_clock,
                 s.mylayoutbox,
             },
         }

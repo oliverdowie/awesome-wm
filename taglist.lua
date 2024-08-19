@@ -1,5 +1,3 @@
--- ~/.config/awesome/custom_taglist.lua
-
 local wibox = require("wibox")
 local awful = require("awful")
 local gears = require("gears")
@@ -107,7 +105,7 @@ local function custom_taglist(s)
         widget = wibox.container.margin,
         margins = {
             left = 5,
-            top = 10
+            top = 5
         },
         grid
     }
