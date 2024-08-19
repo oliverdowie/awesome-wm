@@ -22,6 +22,9 @@ require("awful.hotkeys_popup.keys")
 local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
 
+-- Import the custom taglist
+local custom_taglist = require("taglist")
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -240,13 +243,13 @@ awful.screen.connect_for_each_screen(function(s)
             { -- Left widgets
                 layout = wibox.layout.fixed.horizontal,
                 mylauncher,
-                s.mytaglist,
+                custom_taglist(s),
                 s.mypromptbox,
             },
             s.mytasklist, -- Middle widget
             { -- Right widgets
                 layout = wibox.layout.fixed.horizontal,
-                mykeyboardlayout,
+                -- mykeyboardlayout,
                 wibox.widget.systray(),
                 mytextclock,
                 s.mylayoutbox,
@@ -363,7 +366,37 @@ globalkeys = gears.table.join(
               {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"})
+              {description = "show the menubar", group = "launcher"}),
+    -- Media keys
+    -- Volume Up
+    awful.key({}, "XF86AudioRaiseVolume", function()
+        awful.util.spawn("amixer set Master 5%+")
+    end, {description = "increase volume", group = "media"}),
+
+    -- Volume Down
+    awful.key({}, "XF86AudioLowerVolume", function()
+        awful.util.spawn("amixer set Master 5%-")
+    end, {description = "decrease volume", group = "media"}),
+
+    -- Mute/Unmute
+    awful.key({}, "XF86AudioMute", function()
+        awful.util.spawn("amixer set Master toggle")
+    end, {description = "mute/unmute volume", group = "media"}),
+
+    -- Play/Pause
+    awful.key({}, "XF86AudioPlay", function()
+        awful.util.spawn("playerctl play-pause")
+    end, {description = "play/pause media", group = "media"}),
+
+    -- Next Track
+    awful.key({}, "XF86AudioNext", function()
+        awful.util.spawn("playerctl next")
+    end, {description = "next track", group = "media"}),
+
+    -- Previous Track
+    awful.key({}, "XF86AudioPrev", function()
+        awful.util.spawn("playerctl previous")
+    end, {description = "previous track", group = "media"})
 )
 
 clientkeys = gears.table.join(
