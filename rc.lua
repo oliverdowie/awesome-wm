@@ -196,8 +196,8 @@ awful.screen.connect_for_each_screen(function(s)
     -- We need one layoutbox per screen.
     s.mylayoutbox = awful.widget.layoutbox({
         screen = s,
-        forced_height = 20,
-        forced_width = 20
+        forced_height = 30,
+        forced_width = 30
     })
     s.mylayoutbox:buttons(gears.table.join(
                            awful.button({ }, 1, function () awful.layout.inc( 1) end),
@@ -212,9 +212,9 @@ awful.screen.connect_for_each_screen(function(s)
         wibox.widget {
             widget = wibox.container.margin,
             margins = {
-                left = 10,
-                bottom = 10,
-                top = 10
+                left = 5,
+                bottom = 5,
+                top = 5
             },
             s.mylayoutbox
         }

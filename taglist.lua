@@ -50,35 +50,30 @@ local function create_taglist_item(tag, i, num_cols)
     -- Define default and selected colors
     local default_bg = "#ffffff"
     local selected_bg = "#ff0000"
+    local urgent_bg = '#ff1111'
     local hover_bg = '#ff1111'
 
-    -- Set the background color initially
-    tag_circle.border_color = default_bg
-
-    -- Connect to signals to change color on tag focus
-    tag:connect_signal("property::selected", function()
-        if tag.selected then
+    local function update_tag_color()
+        if tag.urgent then
+            tag_circle.border_color = urgent_bg
+        elseif tag.selected then
             tag_circle.border_color = selected_bg
         else
             tag_circle.border_color = default_bg
         end
-    end)
-
-    -- Update color if tag is selected on creation
-    if tag.selected then
-        tag_circle.border_color = selected_bg
     end
 
-    -- Update appearance based on tag properties
+    tag:connect_signal("property::selected", update_tag_color)
+    tag:connect_signal("property::urgent", update_tag_color)
     tag_circle:connect_signal("mouse::enter", function()
-        tag_circle.border_color = hover_bg  -- Change background color on hover
+        tag_circle.border_color = hover_bg
     end)
     tag_circle:connect_signal("mouse::leave", function()
-        tag_circle.border_color = default_bg  -- Reset background color
-        if tag.selected then
-            tag_circle.border_color = selected_bg
-        end
+        update_tag_color()
     end)
+
+    update_tag_color()
+
     tag_circle:connect_signal("button::press", function(_, _, _, button)
         if button == 1 then
             tag:view_only()
