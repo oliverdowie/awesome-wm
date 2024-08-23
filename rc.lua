@@ -253,6 +253,7 @@ awful.screen.connect_for_each_screen(function(s)
                 layout = wibox.layout.fixed.horizontal,
                 mylauncher,
                 custom_taglist(s),
+                layout_icon,
                 s.mypromptbox,
             },
             s.mytasklist, -- Middle widget
@@ -261,7 +262,6 @@ awful.screen.connect_for_each_screen(function(s)
                 -- mykeyboardlayout,
                 wibox.widget.systray(),
                 custom_clock,
-                layout_icon,
             },
         }
     }
@@ -651,5 +651,5 @@ client.connect_signal("manage", function (c)
 end)
 
 -- Autostart
-awful.spawn.with_shell("picom")
 awful.spawn.with_shell("nitrogen --restore")
+awful.spawn.with_shell("picom")
